@@ -1,0 +1,14 @@
+spring:
+  #thymeleaf配置
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+#日志的设置
+logging:
+  level:
+    com:
+      crm: debug
+

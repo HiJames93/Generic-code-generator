@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{css/layui.css}"  media="all">
+    <script type="text/javascript" th:src="@{js/vue.js}"></script>
+    <title>Title</title>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item">
+                <label class="layui-form-label">数据库地址</label>
+                <div class="layui-input-block">
+                    <input type="text" v-model="sqlForm.IPAddr" name="title" required  lay-verify="required" placeholder="请输入IP" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">数据库用户</label>
+                <div class="layui-input-block">
+                    <input type="text" v-model="sqlForm.username" name="title" required  lay-verify="required" placeholder="请输入用户" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">数据库密码</label>
+                <div class="layui-input-block">
+                    <input type="password" v-model="sqlForm.password" name="password" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sqlLogin" class="layui-form-item" align="center">
+        <div class="layui-input-block">
+            <button class="layui-btn" v-on:click="testLink" lay-submit lay-filter="formDemo">测试链接</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script th:src="@{layui.js}" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('element', function(){
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        //监听导航点击
+        element.on('nav(demo)', function(elem){
+            //console.log(elem)
+            layer.msg(elem.text());
+        });
+    });
+</script>
+<script>
+    var vm = new Vue({
+        el: '#sqlLogin',
+        data: {
+            sqlForm:{
+                IPAddr:'',
+                username:'',
+                password:''
+            }
+        },
+        methods:{
+            addCus:function(){
+                axios.post("/testSqlLinker.html",{
+                    ipAddr:vm.sqlForm.IPAddr,
+                    username:vm.sqlForm.username,
+                    password:vm.sqlForm.password,
+                },{
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res=>{
+                    console.log(res);
+                }).catch(err=>{
+                    console.log(err);
+                });
+            }
+        }
+    });
+</script>
+</html>
